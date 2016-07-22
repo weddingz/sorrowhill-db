@@ -27,17 +27,17 @@ BEGIN
     -- Expected Values
     SET @cOldVersion = '21'; 
     SET @cOldStructure = '11'; 
-    SET @cOldContent = '27';
+    SET @cOldContent = '42';
 
     -- New Values
     SET @cNewVersion = '21';
     SET @cNewStructure = '11';
-    SET @cNewContent = '28';
+    SET @cNewContent = '43';
                             -- DESCRIPTION IS 30 Characters MAX    
-    SET @cNewDescription = 'dbdocs_update_dbscripts';
+    SET @cNewDescription = 'Fix_Kroshius';
 
                         -- COMMENT is 150 Characters MAX
-    SET @cNewComment = 'dbdocs_update_dbscripts';
+    SET @cNewComment = 'Fix_Kroshius';
 
     -- Evaluate all settings
     SET @cCurResult := (SELECT description FROM db_version ORDER BY `version` DESC, STRUCTURE DESC, CONTENT DESC LIMIT 0,1);
@@ -57,40 +57,17 @@ BEGIN
         -- -- PLACE UPDATE SQL BELOW -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    delete from `dbdocssubtables` where `subtableId`= 137 and languageId=0;
-insert  into `dbdocssubtables`(`subtableId`,`languageId`,`subtableName`,`subtablecontent`,`subtableTemplate`) values (137,0,'db_script_Types','<table border=\'1\' cellspacing=\'1\' cellpadding=\'3\' bgcolor=\'#f0f0f0\'>
-<tr bgcolor=\'#f0f0ff\'>
-<th><b>Type</b></th>
-<th align=\'left\'><b>Type Name</b></th>
-<th align=\'left\'><b>Notes</b></th>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>0</td><td align=\'left\' valign=\'middle\'>Quest Start</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>1</td><td align=\'left\' valign=\'middle\'>Quest End</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>2</td><td align=\'left\' valign=\'middle\'>Gossip</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>3</td><td align=\'left\' valign=\'middle\'>Creature Movement</td><td align=\'left\' valign=\'middle\'>This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>4</td><td align=\'left\' valign=\'middle\'>Creature Death</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>5</td><td align=\'left\' valign=\'middle\'>Spell</td><td align=\'left\' valign=\'middle\'>This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>6</td><td align=\'left\' valign=\'middle\'>Go Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>7</td><td align=\'left\' valign=\'middle\'>Go Template Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses a gameobject (like door, chest, button so on).</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>8</td><td align=\'left\' valign=\'middle\'>Event</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.</td></tr>
-</table>
-','Type|<Type Name|<Notes
-0|Quest Start
-|This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.
-1|Quest End|This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.
-2|Gossip
-|This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).
-3|Creature Movement
-|This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)
-4|Creature Death
-|This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)
-5|Spell
-|This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.
-6|Go Use
-|This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).
-7|Go Template Use
-|This type are scripts activated when a character uses a gameobject (like door, chest, button so on).
-8|Event
-|This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.');
+    -- Fixed spawn location of NPC 14467 (Kroshius) in Felwood
+
+UPDATE creature SET position_x = 5800.89, position_y = -985.82, position_z = 409.78 WHERE id = 14467;  
+
+
+-- Fixed location of GO 300049 (TEMP Kroshius' Remains) in Felwood  
+-- Also changed it to its correct entry/name values  
+
+UPDATE gameobject_template SET entry = 179677, name = "Kroshius' Remains" WHERE entry = 300049;  
+UPDATE gameobject SET position_x = 5800.89, position_y = -985.82, position_z = 409.78 WHERE id = 300049;  
+UPDATE gameobject SET id = 179677 WHERE id = 300049;  
 
     
 

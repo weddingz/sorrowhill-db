@@ -27,17 +27,17 @@ BEGIN
     -- Expected Values
     SET @cOldVersion = '21'; 
     SET @cOldStructure = '11'; 
-    SET @cOldContent = '27';
+    SET @cOldContent = '31';
 
     -- New Values
     SET @cNewVersion = '21';
     SET @cNewStructure = '11';
-    SET @cNewContent = '28';
+    SET @cNewContent = '32';
                             -- DESCRIPTION IS 30 Characters MAX    
-    SET @cNewDescription = 'dbdocs_update_dbscripts';
+    SET @cNewDescription = 'Fix_SD3_Texts';
 
                         -- COMMENT is 150 Characters MAX
-    SET @cNewComment = 'dbdocs_update_dbscripts';
+    SET @cNewComment = 'Fix_SD3_Texts';
 
     -- Evaluate all settings
     SET @cCurResult := (SELECT description FROM db_version ORDER BY `version` DESC, STRUCTURE DESC, CONTENT DESC LIMIT 0,1);
@@ -57,42 +57,42 @@ BEGIN
         -- -- PLACE UPDATE SQL BELOW -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    delete from `dbdocssubtables` where `subtableId`= 137 and languageId=0;
-insert  into `dbdocssubtables`(`subtableId`,`languageId`,`subtableName`,`subtablecontent`,`subtableTemplate`) values (137,0,'db_script_Types','<table border=\'1\' cellspacing=\'1\' cellpadding=\'3\' bgcolor=\'#f0f0f0\'>
-<tr bgcolor=\'#f0f0ff\'>
-<th><b>Type</b></th>
-<th align=\'left\'><b>Type Name</b></th>
-<th align=\'left\'><b>Notes</b></th>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>0</td><td align=\'left\' valign=\'middle\'>Quest Start</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>1</td><td align=\'left\' valign=\'middle\'>Quest End</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>2</td><td align=\'left\' valign=\'middle\'>Gossip</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>3</td><td align=\'left\' valign=\'middle\'>Creature Movement</td><td align=\'left\' valign=\'middle\'>This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>4</td><td align=\'left\' valign=\'middle\'>Creature Death</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>5</td><td align=\'left\' valign=\'middle\'>Spell</td><td align=\'left\' valign=\'middle\'>This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>6</td><td align=\'left\' valign=\'middle\'>Go Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>7</td><td align=\'left\' valign=\'middle\'>Go Template Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses a gameobject (like door, chest, button so on).</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>8</td><td align=\'left\' valign=\'middle\'>Event</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.</td></tr>
-</table>
-','Type|<Type Name|<Notes
-0|Quest Start
-|This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.
-1|Quest End|This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.
-2|Gossip
-|This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).
-3|Creature Movement
-|This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)
-4|Creature Death
-|This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)
-5|Spell
-|This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.
-6|Go Use
-|This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).
-7|Go Template Use
-|This type are scripts activated when a character uses a gameobject (like door, chest, button so on).
-8|Event
-|This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.');
+    --
+-- Dumping data for table `gossip_texts`
+--
 
-    
+DELETE FROM `gossip_texts` WHERE `entry` IN (-3000000,-3000105,-3000106,-3000107,-3000108,-3000109,-3000110,-3230000);
+DELETE FROM `gossip_texts` WHERE `entry` IN (-3033000,-3043000,-3090000,-3230001,-3230002,-3409000,-3409001,-3409002);
+DELETE FROM `gossip_texts` WHERE `entry` IN (-3469000,-3469001,-3469002,-3469003,-3469004,-3509000,-3509001);
+
+/*!40000 ALTER TABLE `gossip_texts` DISABLE KEYS */;
+INSERT INTO `gossip_texts` (`entry`, `content_default`, `content_loc1`, `content_loc2`, `content_loc3`, `content_loc4`, `content_loc5`, `content_loc6`, `content_loc7`, `content_loc8`, `comment`) VALUES 
+(-3000000,'[PH] SD3 unknown text',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'GOSSIP_ID_UNKNOWN_TEXT'),
+(-3000105,'Ezekiel said that you might have a certain book...',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'dirty larry GOSSIP_ITEM_BOOK'),
+(-3000106,'Let Marshal Windsor know that I am ready.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'squire rowe GOSSIP_ITEM_WINDSOR'),
+(-3000107,'I am ready, as are my forces. Let us end this masquerade!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'reginald windsor GOSSIP_ITEM_START'),
+(-3000108,'I need a moment of your time, sir.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'prospector anvilward GOSSIP_ITEM_MOMENT'),
+(-3000109,'I am ready, Oronok. Let us destroy Cyrukh and free the elements!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'oronok torn-heart GOSSIP_ITEM_FIGHT'),
+(-3000110,'Why... yes, of course. I\'ve something to show you right inside this building, Mr. Anvilward.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'prospector anvilward GOSSIP_ITEM_SHOW'),
+(-3033000,'Please unlock the courtyard door.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'deathstalker adamant/ sorcerer ashcrombe - GOSSIP_ITEM_DOOR'),
+(-3043000,'Let the event begin!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Disciple of Naralex - GOSSIP_ITEM_BEGIN'),
+(-3090000,'I am ready to begin.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'emi shortfuse GOSSIP_ITEM_START'),
+(-3230000,'You\'re free, Dughal! Get out of here!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'dughal GOSSIP_ITEM_DUGHAL'),
+(-3230001,'Get out of here, Tobias, you\'re free!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'tobias GOSSIP_ITEM_TOBIAS'),
+(-3230002,'Your bondage is at an end, Doom\'rel. I challenge you!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'doomrel GOSSIP_ITEM_CHALLENGE'),
+(-3409000,'Tell me more.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'majordomo_executus GOSSIP_ITEM_SUMMON_1'),
+(-3409001,'What else do you have to say?',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'majordomo_executus GOSSIP_ITEM_SUMMON_2'),
+(-3409002,'You challenged us and we have come. Where is this master you speak of?',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'majordomo_executus GOSSIP_ITEM_SUMMON_3'),
+
+(-3469000,'I\'ve made no mistakes.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'victor_nefarius GOSSIP_ITEM_NEFARIUS_1'),
+(-3469001,'You have lost your mind, Nefarius. You speak in riddles.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'victor_nefarius GOSSIP_ITEM_NEFARIUS_2'),
+(-3469002,'Please do.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'victor_nefarius GOSSIP_ITEM_NEFARIUS_3'),
+(-3469003,'I cannot, Vaelastrasz! Surely something can be done to heal you!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'vaelastrasz GOSSIP_ITEM_VAEL_1'),
+(-3469004,'Vaelastrasz, no!!!',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'vaelastrasz GOSSIP_ITEM_VAEL_2'),
+(-3509000,'Let\'s find out.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'andorov GOSSIP_ITEM_START'),
+(-3509001,'Let\'s see what you have.',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'andorov GOSSIP_ITEM_TRADE');
+/*!40000 ALTER TABLE `gossip_texts` ENABLE KEYS */;
+   
 
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
         -- -- PLACE UPDATE SQL ABOVE -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

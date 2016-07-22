@@ -27,17 +27,17 @@ BEGIN
     -- Expected Values
     SET @cOldVersion = '21'; 
     SET @cOldStructure = '11'; 
-    SET @cOldContent = '27';
+    SET @cOldContent = '37';
 
     -- New Values
     SET @cNewVersion = '21';
     SET @cNewStructure = '11';
-    SET @cNewContent = '28';
+    SET @cNewContent = '38';
                             -- DESCRIPTION IS 30 Characters MAX    
-    SET @cNewDescription = 'dbdocs_update_dbscripts';
+    SET @cNewDescription = 'Quest_4224_Update';
 
                         -- COMMENT is 150 Characters MAX
-    SET @cNewComment = 'dbdocs_update_dbscripts';
+    SET @cNewComment = 'Quest_4224_Update';
 
     -- Evaluate all settings
     SET @cCurResult := (SELECT description FROM db_version ORDER BY `version` DESC, STRUCTURE DESC, CONTENT DESC LIMIT 0,1);
@@ -57,42 +57,48 @@ BEGIN
         -- -- PLACE UPDATE SQL BELOW -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-    delete from `dbdocssubtables` where `subtableId`= 137 and languageId=0;
-insert  into `dbdocssubtables`(`subtableId`,`languageId`,`subtableName`,`subtablecontent`,`subtableTemplate`) values (137,0,'db_script_Types','<table border=\'1\' cellspacing=\'1\' cellpadding=\'3\' bgcolor=\'#f0f0f0\'>
-<tr bgcolor=\'#f0f0ff\'>
-<th><b>Type</b></th>
-<th align=\'left\'><b>Type Name</b></th>
-<th align=\'left\'><b>Notes</b></th>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>0</td><td align=\'left\' valign=\'middle\'>Quest Start</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>1</td><td align=\'left\' valign=\'middle\'>Quest End</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>2</td><td align=\'left\' valign=\'middle\'>Gossip</td><td align=\'left\' valign=\'middle\'>This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>3</td><td align=\'left\' valign=\'middle\'>Creature Movement</td><td align=\'left\' valign=\'middle\'>This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>4</td><td align=\'left\' valign=\'middle\'>Creature Death</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>5</td><td align=\'left\' valign=\'middle\'>Spell</td><td align=\'left\' valign=\'middle\'>This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>6</td><td align=\'left\' valign=\'middle\'>Go Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).</td></tr>
-<tr bgcolor=\'#FEFEFF\'><td align=\'center\' valign=\'middle\'>7</td><td align=\'left\' valign=\'middle\'>Go Template Use</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when a character uses a gameobject (like door, chest, button so on).</td></tr>
-<tr bgcolor=\'#FFFFEE\'><td align=\'center\' valign=\'middle\'>8</td><td align=\'left\' valign=\'middle\'>Event</td><td align=\'left\' valign=\'middle\'>This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.</td></tr>
-</table>
-','Type|<Type Name|<Notes
-0|Quest Start
-|This type are scripts mentioned in the quest_template table. Here source = questgiver, target = Player.
-1|Quest End|This type are scripts mentioned in the quest_template table. Here source = questrewarder, target = Player.
-2|Gossip
-|This type are scripts mentioned in the gossip_menu and gossip_menu_option tables. In the latter case, the parameters depend on object type (GameObject or Unit) of the object having such gossip:<br /> for GO, source = Player and target = GameObject; <br />for Unit, source = Unit and target = Player. In the former case, source = Player and target = Unit. <br />This all is rather funny, isn\'t this?<br />The scripts &quot;on talking to gameobject&quot; are implemented instead with type 7 (Go Template Use).
-3|Creature Movement
-|This type are  scripts activated when a creature moving by waypoints reaches a WP. (Source: creature)
-4|Creature Death
-|This type are scripts activated when a creature dies. (Source: creature; at the script execution time, it is considered alive, so can cast instant spells.)
-5|Spell
-|This type are scripts triggered by spells with EFFECT_DUMMY (3) or EFFECT_SCRIPT_EFFECT (77). Here source = caster, target = unitTarget.<br />Note that if the spell contains more than 1 effect of such type, this script will be set up for the single effect only, namely for one with the least effect number.
-6|Go Use
-|This type are scripts activated when a character uses either door or button. <br />This script, bound to the GameObject GUID, does not override the script bound to the GameObject entry, if any. If both scripts are defined, they are executed sequentially, the script of this type activates after type 7 (Go Template Use).
-7|Go Template Use
-|This type are scripts activated when a character uses a gameobject (like door, chest, button so on).
-8|Event
-|This type are scripts activated when an event is sent either via spell (SPELL_EFFECT_SEND_EVENT=61) or by a gameobject.');
+    -- Moved to DB gossip menu/gossip menus options used in quest 4224 (The True Masters) by NPC 9563 (Ragged John)
 
-    
+SET @CONDITION := 871;
+
+DELETE FROM conditions WHERE condition_entry=@CONDITION;
+INSERT INTO conditions VALUES
+(@CONDITION, 9, 4224, 0);
+
+DELETE FROM gossip_menu WHERE entry BETWEEN 2050 AND 2060;
+INSERT INTO gossip_menu VALUES
+(2050, 2725, 205001, 0),
+(2051, 2723, 0, 0),
+(2052, 2722, 0, 0),
+(2053, 2721, 0, 0),
+(2054, 2720, 0, 0),
+(2055, 2719, 0, 0),
+(2056, 2718, 0, 0),
+(2057, 2717, 0, 0),
+(2058, 2716, 0, 0),
+(2059, 2715, 0, 0),
+(2060, 2714, 0, 0);
+
+DELETE FROM gossip_menu_option WHERE menu_id BETWEEN 2050 AND 2061;
+INSERT INTO gossip_menu_option (menu_id, id, option_icon, option_text, option_id, npc_option_npcflag, action_menu_id, action_poi_id, action_script_id, box_coded, box_money, box_text, condition_id) VALUES
+(2061, 0, 0, 'Official business, John. I need some information about Marshal Windsor. Tell me about the last time you saw him', 1, 1, 2060, 0, 0, 0, 0, '', @CONDITION),
+(2060, 0, 0, 'So what did you do?', 1, 1, 2059, 0, 0, 0, 0, '', 0),
+(2059, 0, 0, 'Start making sense, dwarf. I don\'t want to have anything to do with your cracker, your pappy, or any sort of \'discreditin\'.', 1, 1, 2058, 0, 0, 0, 0, '', 0),
+(2058, 0, 0, 'Ironfoe?', 1, 1, 2057, 0, 0, 0, 0, '', 0),
+(2057, 0, 0, 'Interesting... continue, John.', 1, 1, 2056, 0, 0, 0, 0, '', 0),
+(2056, 0, 0, 'So that\'s how Windsor died...', 1, 1, 2055, 0, 0, 0, 0, '', 0),
+(2055, 0, 0, 'So how did he die?', 1, 1, 2054, 0, 0, 0, 0, '', 0),
+(2054, 0, 0, 'Ok, so where the hell is he? Wait a minute! Are you drunk?', 1, 1, 2053, 0, 0, 0, 0, '', 0),
+(2053, 0, 0, 'WHY is he in Blackrock Depths?', 1, 1, 2052, 0, 0, 0, 0, '', 0),
+(2052, 0, 0, '300? So the Dark Irons killed him and dragged him into the Depths?', 1, 1, 2051, 0, 0, 0, 0, '', 0),
+(2051, 0, 0, 'Ahh... Ironfoe.', 1, 1, 2050, 0, 0, 0, 0, '', 0),
+(2050, 0, 0, 'Thanks, Ragged John. Your story was very uplifting and informative.', 1, 1, -1, 0, 0, 0, 0, '', 0);
+
+DELETE FROM db_scripts WHERE id=205001 AND script_type=2;
+INSERT INTO `db_scripts` (script_type,id,delay,command,datalong,datalong2,buddy_entry,search_radius,data_flags,dataint,dataint2,dataint3,dataint4,X,Y,z,o,comments) VALUES
+(2, 205001, 0, 7, 4224, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '');
+
+DELETE FROM script_binding WHERE scriptname = 'npc_kharan_mighthammer';    
 
         -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
         -- -- PLACE UPDATE SQL ABOVE -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
