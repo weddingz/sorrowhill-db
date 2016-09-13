@@ -18,9 +18,9 @@ loadworldDB="YES"
 loadrealmDB="YES"
 dbType="POPULATED"
 
-updatecharDB="YES"
-updateworldDB="YES"
-updaterealmDB="YES"
+updatecharDB="NO"
+updateworldDB="NO"
+updaterealmDB="NO"
 
 addRealmList="YES"
 
