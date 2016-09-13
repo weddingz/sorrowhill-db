@@ -7,6 +7,7 @@
 
 RELEASE="Rel21"
 UPDATES="Rel20_to_BaseRel21_Updates"
+DUMP="NO"
 
 createcharDB="YES"
 createworldDB="YES"
@@ -33,9 +34,10 @@ rdb_def="realmd"
 
 printHelp()
 {
-	printf "Usage: $0 [-s] [-u] [-h]\n"
+	printf "Usage: $0 [-s] [-u] [-d] [-h]\n"
 	printf "\t-s: Run this script in silent mode, only prompt for the database information\n"
 	printf "\t-u: Run only the updates of the database\n"
+	printf "\t-d: Dump the database configuration into the home directory of the user\n"
 	printf "\t-h: Display this help\n"
 }
 
@@ -197,6 +199,9 @@ while getopts "suh" o; do
 			dbType="EMPTY"
 			printf "You selected update only\n"
 			;;
+		d)
+			DUMP="YES"
+			;;
 		h)
 			printHelp
 			exit 0
@@ -307,6 +312,8 @@ read port
 port=${port:-${port_def}}
 printf "What is your MySQL password ?\t [], "
 mysql_config_editor set --login-path=local --host=${svr} --port=${port} --user=${user} --password --skip-warn
+printf "Enter it again \t[]: "
+read pass
 printf "What is your Character database name ?\t[${cdb_def}]: "
 read cdb
 cdb=${cdb:-${cdb_def}}
@@ -344,6 +351,11 @@ fi
 if [ "${addRealmList}" = "YES" ]; then
 	addRealmList
 fi
+
+printf "Dumping database information...\n"
+echo "${svr};${port};${user};${pass};${rdb}" > ~/db.conf
+echo "${svr};${port};${user};${pass};${wdb}" >> ~/db.conf
+echo "${svr};${port};${user};${pass};${cdb}" >> ~/db.conf
 
 printBanner
 printf "Database creation and load complete :-)\n"
